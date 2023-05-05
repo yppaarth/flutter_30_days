@@ -1,4 +1,3 @@
-
 import 'package:f1/models/catalog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,56 +6,91 @@ import 'dart:convert';
 import '../widgets/drawer.dart';
 import '../widgets/item_widget.dart';
 
-class HomePage extends StatefulWidget{
-
+class HomePage extends StatefulWidget {
   @override
-  State<HomePage> createState() => _HomePageState();
+  _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  final int hrs = 1;
+  final int days = 30;
+
+  final String name = "Codepur";
+
   @override
-  void init(){
+  void initState() {
     super.initState();
     loadData();
   }
-loadData() async{
-    final catalogJson = await rootBundle.loadString("assets/files/catalog.json");
-    final decodeData = jsonDecode(catalogJson);
-      var productdata= decodeData["products"];
-      print(productdata);
 
-}
+  loadData() async {
+    await Future.delayed(Duration(seconds: 2));
+    final catalogJson =
+    await rootBundle.loadString("assets/files/catalog.json");
+    final decodedData = jsonDecode(catalogJson);
+    var productsData = decodedData["products"];
+    CatalogModel.items = List.from(productsData)
+        .map<Item>((item) => Item.fromMap(item))
+        .toList();
+    setState(() {});
+  }
 
   @override
-  Widget build(BuildContext context)
-  {
-    final dummyList = List.generate(20, (index) => CatalogModel.items[0]);
-
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0.0,
-        iconTheme: IconThemeData(color: Colors.black),
-        title: Text("Catalog App",
-          style: TextStyle(
-            color: Colors.black,
-          ),
-        ),
+        title: Text("Catalog App"),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListView.builder(
-          itemCount: dummyList.length,
-          itemBuilder: (context, index) {
-            return ItemWidget(
-              item: dummyList[index],
-            );
-          },
+        padding: const EdgeInsets.all(16.0),
+        child: (CatalogModel.items != null && CatalogModel.items.isNotEmpty)
+            ? GridView.builder
+          (
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisSpacing: 16,
+              crossAxisSpacing: 16,
+
+            ),
+            itemBuilder: (context,index)
+            {
+              final item = CatalogModel.items[index];
+
+              return Card(
+                clipBehavior: Clip.antiAlias,
+                  shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)
+              ),
+                  child: GridTile(
+                      header: Container(
+                          child: Text(item.name,
+                          style: TextStyle(color: Colors.white),),
+                        padding: EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: Colors.deepPurple,
+
+                        ),
+                      ),
+                      child: Image.network(item.image),
+                    footer:
+                    Container(
+                      child: Text(item.price.toString(),
+                        style: TextStyle(color: Colors.white),),
+                      padding: EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+
+                      ),
+                    ),
+                  )
+              );
+            }
+        )
+        
+            : Center(
+          child: CircularProgressIndicator(),
         ),
       ),
       drawer: MyDrawer(),
-      );
-
+    );
   }
 }
