@@ -1,3 +1,4 @@
+import 'package:f1/pages/cart_page.dart';
 import 'package:f1/pages/login_page.dart';
 import 'package:f1/utils/routes.dart';
 import 'package:f1/widgets/theme.dart';
@@ -24,6 +25,7 @@ debugShowCheckedModeBanner: false,
         "/": (context) => LoginPage(),
         MyRoutes.homeRoutes: (context) => HomePage(),
         MyRoutes.loginRoutes: (context) => LoginPage(),
+        MyRoutes.cartRoute: (context) => CartPage(),
       });
   }
 }

@@ -12,10 +12,14 @@ class HomeDetailPage extends StatelessWidget {
       : assert(catalog != null),
         super(key: key);
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+      ),
       backgroundColor: MyTheme.creamColor,
       bottomNavigationBar: Container(
         color: Colors.white,
@@ -30,7 +34,7 @@ class HomeDetailPage extends StatelessWidget {
                     backgroundColor:
                     MaterialStateProperty.all(MyTheme.darkBluishColor),
                     shape: MaterialStateProperty.all(StadiumBorder())),
-                child: "Buy".text.xl.make()).wh(100, 50)
+                child: "Add to cart".text.xl.make()).wh(150, 50)
           ],
         ).p32(),
       ),
@@ -57,6 +61,9 @@ class HomeDetailPage extends StatelessWidget {
                         .make(),
                     catalog.desc.text.textStyle(context.captionStyle).xl.make(),
                     10.heightBox,
+                   "Hasan Mahmud to Doheny, no run, what a good review that is from Doheny. It looked plumb when he shuffled across and missed the nipbacker, rapped on the pads, just above the kneeroll and the extra bounce saves Doheny, going over. The original ".
+                   text.textStyle(context.captionStyle).make().p16()
+
                   ],
                 ).py64(),
               ),

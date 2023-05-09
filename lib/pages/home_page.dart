@@ -1,4 +1,5 @@
 import 'package:f1/models/catalog.dart';
+import 'package:f1/utils/routes.dart';
 import 'package:f1/widgets/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,6 @@ import 'dart:convert';
 import 'package:velocity_x/velocity_x.dart';
 import '../widgets/home_widgets/catalog_header.dart';
 import '../widgets/home_widgets/catalog_list.dart';
-
 
 class HomePage extends StatefulWidget {
   @override
@@ -40,6 +40,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.pushNamed(context, MyRoutes.cartRoute),
+        child: Icon(CupertinoIcons.cart),
+        backgroundColor: MyTheme.darkBluishColor,
+      ),
       backgroundColor: MyTheme.creamColor,
       body: SafeArea(
         child: Container(
@@ -51,7 +56,7 @@ class _HomePageState extends State<HomePage> {
               if (CatalogModel.items != null && CatalogModel.items.isNotEmpty)
                 CatalogList().py16().expand()
               else
-                   CircularProgressIndicator(
+                CircularProgressIndicator(
                   strokeWidth: 2,
                   semanticsLabel: 'Circular progress indicator',
                 ).centered().expand(),
@@ -62,4 +67,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
